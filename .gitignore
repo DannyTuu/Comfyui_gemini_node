@@ -2,10 +2,11 @@
 gemini_config.json
 .env
 .env.*
+AGENTS.md
+CLAUDE.md
 
 # Python
 __pycache__/
 *.py[cod]
 .venv/
 venv/
-
