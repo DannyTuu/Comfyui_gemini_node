@@ -59,7 +59,7 @@ def tensor2pil(image: torch.Tensor) -> List[Image.Image]:
 
 # ==================== 配置管理 ====================
 CONFIG_FILE = os.path.join(os.path.dirname(__file__), "gemini_config.json")
-DEFAULT_BASE_URL = "https://yunwu.ai/v1beta"
+DEFAULT_BASE_URL = "https://generativelanguage.googleapis.com/v1beta"
 
 
 def normalize_base_url(base_url: str) -> str:
@@ -67,6 +67,15 @@ def normalize_base_url(base_url: str) -> str:
     if not isinstance(base_url, str):
         return ""
     return base_url.strip().rstrip("/")
+
+
+def describe_base_url(base_url: str) -> str:
+    """Return a generic label for status output without exposing the raw URL."""
+    normalized_base_url = normalize_base_url(base_url)
+    default_base_url = normalize_base_url(DEFAULT_BASE_URL)
+    if not normalized_base_url or normalized_base_url == default_base_url:
+        return "default"
+    return "custom"
 
 
 def get_config() -> Dict[str, Any]:
@@ -730,14 +739,14 @@ class GoogleGeminiConfigManager:
 
                 client = GoogleGeminiClient()
                 client.apply_runtime_config(api_key=api_key_value, base_url=base_url)
-                return (f"API key saved successfully (base_url: {client.base_url})",)
+                return (f"API key saved successfully (base_url: {describe_base_url(client.base_url)})",)
 
             elif action == "get":
                 config = get_config()
                 api_key_value = config.get('api_key', '').strip()
                 if not api_key_value:
                     current_base_url = normalize_base_url(config.get("base_url", "")) or DEFAULT_BASE_URL
-                    return (f"No API key configured; current base_url: {current_base_url}",)
+                    return (f"No API key configured; base_url: {describe_base_url(current_base_url)}",)
                 if api_key_value:
                     masked_key = api_key_value[:10] + "..." + api_key_value[-4:]
                     key_base_url_map = config.get("key_base_url_map", {})
@@ -745,7 +754,7 @@ class GoogleGeminiConfigManager:
                     if isinstance(key_base_url_map, dict):
                         mapped_base_url = normalize_base_url(key_base_url_map.get(api_key_value, ""))
                     current_base_url = mapped_base_url or normalize_base_url(config.get("base_url", "")) or DEFAULT_BASE_URL
-                    return (f"API key found: {masked_key}; base_url: {current_base_url}",)
+                    return (f"API key found: {masked_key}; base_url: {describe_base_url(current_base_url)}",)
 
             elif action == "clear":
                 config = get_config()

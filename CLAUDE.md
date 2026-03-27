@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-A ComfyUI custom node plugin that wraps the Google Gemini API for image analysis, generation, and editing. Communicates with Gemini via raw REST requests (no official SDK), defaulting to a third-party proxy (`yunwu.ai`).
+A ComfyUI custom node plugin that wraps the Google Gemini API for image analysis, generation, and editing. Communicates with Gemini via raw REST requests (no official SDK), using a configurable Gemini-compatible endpoint.
 
 ## Development Commands
 

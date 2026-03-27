@@ -10,12 +10,13 @@ from google_api import (
     GoogleGeminiImageGeneration,
     GoogleGeminiImageEditing,
     GoogleGeminiConfigManager,
+    DEFAULT_BASE_URL,
     get_config,
     save_config,
 )
 
 
-TEST_BASE_URL = "https://yunwu.ai/v1beta"
+TEST_BASE_URL = DEFAULT_BASE_URL
 
 def create_test_image_tensor(width: int = 512, height: int = 512) -> torch.Tensor:
     """创建用于视觉分析和图像编辑的测试图像"""

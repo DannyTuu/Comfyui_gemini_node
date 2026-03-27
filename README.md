@@ -8,7 +8,7 @@
 
 ### 功能
 
-- 图像分析（最多 4 张输入图）
+- 图像分析（最多 4 张输入图，可按需修改）
 - 文生图（返回图像 + 文本描述 + JSON 响应信息）
 - 图像编辑（最多 4 张输入图）
 - 配置管理：保存/读取/清空 `api_key` 与 `base_url`
@@ -42,12 +42,14 @@ python -m pip install -U requests pillow numpy
 ```json
 {
   "api_key": "YOUR_API_KEY",
-  "base_url": "https://yunwu.ai/v1beta",
+  "base_url": "https://your-gemini-compatible-endpoint/v1beta",
   "key_base_url_map": {}
 }
 ```
 
 所有图像相关节点都支持运行时传入 `api_key` / `base_url` 作为覆盖；当提供 `api_key` 时，会保存该 key 对应的 `base_url`，方便下次自动复用。
+
+推荐API中转：https://yunwu.ai/register?aff=ns1E
 
 ### 节点一览
 
@@ -66,7 +68,7 @@ python -m pip install -U requests pillow numpy
 
 ### 安全提示
 
-- 默认 `base_url` 来自代码里的 `DEFAULT_BASE_URL`（当前为 `https://yunwu.ai/v1beta`）。如果你不信任第三方代理，请改用你自己的 `base_url`（例如官方或自建兼容网关）。
+- 默认 `base_url` 来自代码里的 `DEFAULT_BASE_URL`。如果你需要走自定义兼容网关，可以自行覆盖 `base_url`。
 - `api_key` 会被发送到你配置的 `base_url`；请自行评估风险。
 - 不要把真实 key 写进仓库提交；本项目已忽略 `gemini_config.json`、`.env*` 等本地敏感文件。
 
@@ -88,7 +90,7 @@ A ComfyUI custom node plugin that calls Google Gemini-compatible REST endpoints 
 
 ### Features
 
-- Image analysis (up to 4 input images)
+- Image analysis (up to 4 input images, adjustable if needed)
 - Text-to-image (returns image + description + JSON response info)
 - Image editing (up to 4 input images)
 - Config manager: set/get/clear `api_key` and `base_url`
@@ -122,12 +124,14 @@ Two options:
 ```json
 {
   "api_key": "YOUR_API_KEY",
-  "base_url": "https://yunwu.ai/v1beta",
+  "base_url": "https://your-gemini-compatible-endpoint/v1beta",
   "key_base_url_map": {}
 }
 ```
 
 All image nodes accept optional runtime `api_key` / `base_url` overrides. When an `api_key` is provided, the plugin also persists the key-to-base_url mapping for reuse.
+
+Recommended API relay: https://yunwu.ai/register?aff=ns1E
 
 ### Nodes
 
@@ -138,6 +142,6 @@ All image nodes accept optional runtime `api_key` / `base_url` overrides. When a
 
 ### Security Notes
 
-- The default `base_url` is defined in code as `DEFAULT_BASE_URL` (currently `https://yunwu.ai/v1beta`). If you do not trust a third-party proxy, use your own `base_url` (official or self-hosted gateway).
+- The default `base_url` is defined in code as `DEFAULT_BASE_URL`. If you need a custom compatible gateway, override `base_url` explicitly.
 - Your `api_key` is sent to whatever `base_url` you configure. Assess the risk accordingly.
 - Do not commit real keys. This repo ignores `gemini_config.json`, `.env*`, etc.
